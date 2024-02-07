@@ -1,0 +1,163 @@
+
+<?php 
+
+include("connection.php");
+include("tone_analyzer.php");
+
+?>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+<title>College Reviews: </title>
+<link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css">
+<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/font-awesome/4.7.0/css/font-awesome.min.css">
+<script src="https://code.jquery.com/jquery-3.5.1.min.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/popper.js@1.16.1/dist/umd/popper.min.js"></script>
+<script src="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
+<style>
+    .bs-example{
+    	margin: 20px;
+    }
+
+
+
+</style>
+</head>
+<header style="background: #bddaa5;"><center><img src="logo.png" class="img-responsive" width="100" height="100"></center></header>
+<nav class="w3-sidebar w3-green w3-animate-top w3-xxlarge" style="display:none;padding-top:150px" id="mySidebar">
+  <a href="javascript:void(0)" onclick="w3_close()" class="w3-button w3-green w3-xxlarge w3-padding w3-display-topright" style="padding:6px 24px">
+    <i class="fa fa-remove"></i>
+  </a>
+  <div class="w3-bar-block w3-center">
+    <a onclick="window.location.href='about.php'" class="w3-bar-item w3-button ">About</a>
+    <a href="#" class="w3-bar-item w3-button w3-text-white w3-hover-white">Institutions</a>
+    <a onclick="window.location.href='Contact.php'" class="w3-bar-item w3-button w3-text-white w3-hover-white">Contact</a>
+    <button class="w3-button w3-green" onclick="window.location.href='index.php'">Logout</button>
+  </div>
+</nav>
+<body>
+	<?php 
+		if(isset($_GET["type"]) && $_GET["type"]=="school"){
+        			$qry="select Title from tbl_schools where ID=".$_GET["id"];
+
+        		}else if(isset($_GET["type"]) && $_GET["type"]=="college"){
+        			$qry="select Title from tbl_colleges where ID=".$_GET["id"];
+
+        		}else if(isset($_GET["type"]) && $_GET["type"]=="university"){
+        			$qry="select Title from tbl_university where ID=".$_GET["id"];
+        			
+        		}else if(isset($_GET["type"]) && $_GET["type"]=="kv"){
+        			$qry="select Title from tbl_kvs where ID=".$_GET["id"];
+        		}
+
+        		$resultX=mysqli_query($conn,$qry);
+
+        		$rsX=mysqli_fetch_array($resultX);
+
+        		echo"<h2>Reviews: ".$rsX["Title"]."</h2>";
+
+	?>
+
+
+<div class="card">
+ 
+  <div class="card-body">
+    <blockquote id="score" class="blockquote mb-0">
+     
+
+    </blockquote>
+  </div>
+</div>
+
+
+<h1></h1>
+<div class="bs-example">
+    <blockquote class="blockquote">
+        
+        <?php 
+        		$summary="";
+        		$table="";
+        		$param="";
+        		if(isset($_GET["id"])){
+        			$id=$_GET["id"];
+        		}
+        		if(isset($_GET["type"]) && $_GET["type"]=="school"){
+        			$table="tbl_school_reviews";
+        			$param="School_ID";
+
+        		}else if(isset($_GET["type"]) && $_GET["type"]=="college"){
+        			$table="tbl_college_reviews";
+        			$param="College_ID";
+
+        		}else if(isset($_GET["type"]) && $_GET["type"]=="university"){
+        			$table="tbl_university_reviews";
+        			$param="University_ID";
+        			
+        		}else if(isset($_GET["type"]) && $_GET["type"]=="kv"){
+        			$table="tbl_kv_reviews";
+        			$param="Kv_ID";
+        		}
+
+        		$sql="select * from ".$table." where ".$param."=".$id;
+
+        		// echo $sql;
+        		$result=mysqli_query($conn,$sql);
+
+        		if(mysqli_num_rows($result)){
+        			while($rs=mysqli_fetch_array($result)){ 
+
+        				$summary.=$rs["Comment"];
+
+
+        				?>
+
+        				<p class="mb-0"><?php echo $rs["Comment"];?></p>
+        				<footer class="blockquote-footer">by <cite><?php echo $rs["Author"];?></cite></footer>
+
+        			<?php }
+
+        		}else{
+        			echo"<p style='color:red;'>No information avilable</p>";
+        		}
+
+        		$response=json_decode(calculate_tone($summary));	
+        		//echo"<script>print_score(".$response.");</script>";
+        	?> 	
+        
+        
+    </blockquote>
+</div>
+<p id="demo"></p>
+<script>
+  // Toggle grid padding
+function myFunction() {
+  var x = document.getElementById("myGrid");
+  if (x.className === "w3-row") {
+    x.className = "w3-row-padding";
+  } else { 
+    x.className = x.className.replace("w3-row-padding", "w3-row");
+  }
+}
+
+// Open and close sidebar
+function w3_open() {
+  document.getElementById("mySidebar").style.width = "100%";
+  document.getElementById("mySidebar").style.display = "block";
+}
+
+function w3_close() {
+  document.getElementById("mySidebar").style.display = "none";
+}
+
+function print_score(jsonp){
+	var input=JSON.stringify(jsonp);
+	var Obj = JSON.parse(input);
+	//alert(Obj.document_tone.tones['score']);
+    document.getElementById("score").innerHTML = "<span class='badge badge-primary'>"+Obj.document_tone.tones[0].score+"</span><sub>*This score has been generated by IBM Tone Analyzer</sub> ";
+
+}
+print_score(<?php echo $response;?>);
+</script>
+</body>
+</html>
