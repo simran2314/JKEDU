@@ -4,7 +4,7 @@
 <!-- PROJECT LOGO -->
 <br />
 <div align="center">
-  <a href="https://github.com/aniket-703/JKEDU">
+  <a href="https://github.com/simran2314/JKEDU">
     <img src="Images/logo.png" alt="Logo" width="80" height="80">
   </a>
   <h3 align="center">JKEDU</h3>
@@ -13,9 +13,9 @@
     <br />
     <br />
     <br />
-    <a href="https://github.com/aniket-703/JKEDU"><strong>View Demo » </strong></a>
+    <a href="https://github.com/simran2314/JKEDU"><strong>View Demo » </strong></a>
     ||
-    <a href="https://github.com/aniket-703/JKEDU"><strong>Explore the docs » </strong></a>
+    <a href="https://github.com/simran2314/JKEDU"><strong>Explore the docs » </strong></a>
   </p>
 </div>
 
@@ -53,7 +53,7 @@
 <!-- ABOUT THE PROJECT -->
 ### About The Project
 <div align="center">
-  <a href="https://github.com/aniket-703/JKEDU">
+  <a href="https://github.com/simran2314/JKEDU">
     <img src="Images/logo.png" alt="Logo" width="150" height="150">
   </a>
 </div>
@@ -224,9 +224,9 @@ Distributed under the MIT License. See `LICENSE.txt` for more information.
 
 <!-- CONTACT -->
 ## Contact
-Your Name - aniketcode100@gmail.com
+Your Name - simranshan3008@gmail.com
 
-Project Link: [https://github.com/aniket-703/JKEDU](https://github.com/aniket-703/JKEDU)
+Project Link: [https://github.com/simran2314/JKEDU](https://github.com/simran2314/JKEDU)
 <p align="right">(<a href="#readme-top">back to top</a>)</p>
 
 
